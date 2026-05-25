@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "rpa-dates"
-version = "2.0.0"
+version = "2.0.2"
 description = "Dates actions for RPA"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -14,18 +14,21 @@ authors = [
 ]
 keywords = ["dates", "datetime", "business-days", "holidays"]
 dependencies = [
-    "requests>=2.31.0",
+    "requests>=2.32.4",
     "python-dateutil>=2.8.2",
-    "holidays>=0.89",
+    "holidays",
     "pytest>=9.0.2",
+    "hatchling>=1.29.0",
+    "types-python-dateutil>=2.9.0.20251115",
 ]
 
 [dependency-groups]
 dev = [
-    "pytest>=8.0.0",
-    "pytest-cov>=4.1.0",
-    "mypy>=1.8.0",
-    "ruff>=0.3.0",
+    "pytest",
+    "pytest-cov",
+    "pyrefly",
+    "bandit",
+    "ruff",
     "types-requests",
     "types-python-dateutil",
 ]
@@ -35,14 +38,7 @@ dev = [
 [tool.hatch.build.targets.wheel]
 packages = ["src/rpa_dates"]
 
-[tool.mypy]
-strict = true
-ignore_missing_imports = true
 
-[[tool.mypy.overrides]]
-module = "tests.*"
-disallow_untyped_defs = false
-disallow_untyped_calls = false
 
 [tool.ruff]
 line-length = 180

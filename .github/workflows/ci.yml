@@ -35,8 +35,11 @@ jobs:
       - name: Check Formatting (Ruff)
         run: uv run ruff format --check .
 
-      - name: Run Type Checker (mypy)
-        run: uv run mypy .
+      - name: Run Security Check (bandit)
+        run: uv run bandit -r src/
+
+      - name: Run Type Checker (pyrefly)
+        run: uv run pyrefly .
 
       - name: Run Tests (pytest)
         run: uv run pytest

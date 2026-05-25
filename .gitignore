@@ -19,9 +19,18 @@ venv/
 htmlcov/
 
 # Tool specific
-.mypy_cache/
 .ruff_cache/
+.pyre/
 
-# IDE
-.idea
-.vscode
+# IDE and OS
+.idea/
+.vscode/
+.DS_Store
+*.swp
+
+# Environment Variables
+.env
+.env.*
+
+# Logs
+*.log

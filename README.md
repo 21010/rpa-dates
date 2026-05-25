@@ -1,4 +1,4 @@
-# RPA Dates 2.0
+# Dates and holidays  operations 2.0
 
 **A robust, fault-tolerant Python library for date calculations in Robotic Process Automation (RPA).**
 
@@ -6,10 +6,14 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![PyPI](https://img.shields.io/pypi/v/rpa-dates.svg)](https://pypi.org/project/rpa-dates/)
+[![Build Status](https://github.com/21010/rpa-dates/actions/workflows/ci.yml/badge.svg)](https://github.com/21010/rpa-dates/actions/workflows/ci.yml)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![Code Style: Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-[![Checked with mypy](https://www.mypy-lang.org/static/mypy_badge.svg)](https://mypy-lang.org/)
-[![Build Status](https://github.com/21010/rpa-dates/actions/workflows/ci.yml/badge.svg)](https://github.com/21010/rpa-dates/actions/workflows/ci.yml)
+[![Checked with Pyrefly](https://img.shields.io/badge/pyrefly-checked-blue.svg)]()
+[![Security: Bandit](https://img.shields.io/badge/security-bandit-yellow.svg)](https://github.com/PyCQA/bandit)
+[![Robocorp](https://img.shields.io/badge/Robocorp-Supported-blueviolet.svg)](https://robocorp.com)
+[![RPA Automation](https://img.shields.io/badge/RPA-Automation-orange.svg)]()
 
 ## Key Features
 
@@ -131,6 +135,6 @@ I use `uv` for dependency management.
     ```bash
     uv run pytest
     ```
-## License
+## 📜 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.

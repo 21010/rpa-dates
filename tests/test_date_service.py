@@ -185,7 +185,7 @@ def test_public_holidays_caching_call_structure(service, mock_provider):
     mock_provider.get_holidays.return_value = {date(2025, 1, 1)}
 
     # Passing a LIST to public_holidays
-    holidays = service.public_holidays([2025], country_code="US")
+    holidays = service.public_holidays((2025,), country_code="US")
 
     assert date(2025, 1, 1) in holidays
     # Ensure no crash

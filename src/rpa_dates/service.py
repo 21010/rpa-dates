@@ -1,7 +1,7 @@
 import calendar
 from datetime import date, datetime, timedelta
 from functools import lru_cache
-from typing import Literal, Optional
+from typing import Literal
 
 from dateutil.relativedelta import relativedelta
 
@@ -16,11 +16,11 @@ DateInput = str | date | datetime
 class DateService:
     WEEK_DAYS = {"mon": 0, "tue": 1, "wed": 2, "thu": 3, "fri": 4, "sat": 5, "sun": 6}
 
-    def __init__(self, config: Optional[DateConfig] = None, holiday_provider: Optional[HolidayProvider] = None):
+    def __init__(self, config: DateConfig | None = None, holiday_provider: HolidayProvider | None = None):
         self.config = config or DateConfig()
         self.holiday_provider = holiday_provider or ProviderFactory.create_provider(self.config.api_timeout_seconds)
 
-    def normalize(self, date_input: DateInput, input_format: Optional[str] = None) -> datetime:
+    def normalize(self, date_input: DateInput, input_format: str | None = None) -> datetime:
         """
         Coverts DateInput (str | date | datetime) to datetime object.
 
@@ -49,7 +49,7 @@ class DateService:
                 raise DateOperationError(f"Could not parse '{date_input}' with format '{format}'") from e
         raise TypeError(f"Unsupported type: {type(date_input)}")
 
-    def format(self, dt: datetime | date, output_format: Optional[str] = None) -> str:
+    def format(self, dt: datetime | date, output_format: str | None = None) -> str:
         """
         Formats a datetime or date object into a string.
 
@@ -63,7 +63,17 @@ class DateService:
         fmt = output_format or self.config.default_output_format
         return dt.strftime(fmt)
 
-    def offset(self, date_input: DateInput, seconds: int = 0, minutes: int = 0, hours: int = 0, days: int = 0, weeks: int = 0, months: int = 0, years: int = 0) -> datetime:
+    def offset(
+            self,
+            date_input: DateInput,
+            seconds: int = 0,
+            minutes: int = 0,
+            hours: int = 0,
+            days: int = 0,
+            weeks: int = 0,
+            months: int = 0,
+            years: int = 0,
+    ) -> datetime:
         """
         Applies an offset of days, months, or years to a date.
 
@@ -241,7 +251,7 @@ class DateService:
         dt = self.normalize(date_input)
         return (dt.month - start_month + 12) % 12 + 1
 
-    def nth_working_day_of_month(self, n: int, date_input: DateInput, country_code: Optional[str] = None) -> datetime:
+    def nth_working_day_of_month(self, n: int, date_input: DateInput, country_code: str | None = None) -> datetime:
         """
         Returns the nth working day of the month.
 
@@ -267,7 +277,7 @@ class DateService:
         # Return the nth working day of the month
         return working_days[n - 1]
 
-    def working_day_offset(self, days_offset: int, date_input: DateInput, country_code: Optional[str] = None) -> datetime:
+    def working_day_offset(self, days_offset: int, date_input: DateInput, country_code: str | None = None) -> datetime:
         """
         Calculates a date by offsetting a number of working days.
 
@@ -316,7 +326,7 @@ class DateService:
 
         return current
 
-    def get_working_days_in_month(self, date_input: DateInput, country_code: Optional[str] = None) -> list[datetime]:
+    def get_working_days_in_month(self, date_input: DateInput, country_code: str | None = None) -> list[datetime]:
         """
         Returns a list of working days in the month.
 
@@ -345,12 +355,12 @@ class DateService:
         return working_days
 
     @lru_cache(maxsize=32)
-    def _get_holiday_set(self, years: tuple[int], country_code: Optional[str]) -> set[date]:
+    def _get_holiday_set(self, years: tuple[int], country_code: str | None) -> set[date]:
         """
         Internal helper to retrieve a set of holiday dates for the specified years and country.
 
         Args:
-            years (list[int]): A list of years for which to retrieve holidays.
+            years (tuple[int]): A list of years for which to retrieve holidays.
             country_code (Optional[str]): The country code for which to retrieve holidays.
 
         Returns:
@@ -364,19 +374,19 @@ class DateService:
             holidays.update(self.holiday_provider.get_holidays(year, country_code))
         return holidays
 
-    def public_holidays(self, years: list[int], country_code: str) -> set[date]:
+    def public_holidays(self, years: tuple[int], country_code: str) -> set[date]:
         """
         Return holidays for given year and country. Results are cached.
         List of countries: https://date.nager.at/Country
 
         Args:
             country_code (str): The country code in the format specified by the provider.
-            years (list[int]): A list of years
+            years (tuple[int]): A list of years
 
         Returns:
             set[date]: A set of holiday dates.
         """
-        return self._get_holiday_set(tuple(years), country_code)
+        return self._get_holiday_set(years, country_code)
 
     def is_public_holiday(self, date_input: DateInput, country_code: str) -> bool:
         """
