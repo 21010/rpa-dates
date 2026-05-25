@@ -135,6 +135,6 @@ I use `uv` for dependency management.
     ```bash
     uv run pytest
     ```
-## 📜 License
+## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
