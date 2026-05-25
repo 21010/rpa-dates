@@ -39,7 +39,7 @@ jobs:
         run: uv run bandit -r src/
 
       - name: Run Type Checker (pyrefly)
-        run: uv run pyrefly .
+        run: uv run pyrefly check .
 
       - name: Run Tests (pytest)
         run: uv run pytest

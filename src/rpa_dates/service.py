@@ -64,15 +64,15 @@ class DateService:
         return dt.strftime(fmt)
 
     def offset(
-            self,
-            date_input: DateInput,
-            seconds: int = 0,
-            minutes: int = 0,
-            hours: int = 0,
-            days: int = 0,
-            weeks: int = 0,
-            months: int = 0,
-            years: int = 0,
+        self,
+        date_input: DateInput,
+        seconds: int = 0,
+        minutes: int = 0,
+        hours: int = 0,
+        days: int = 0,
+        weeks: int = 0,
+        months: int = 0,
+        years: int = 0,
     ) -> datetime:
         """
         Applies an offset of days, months, or years to a date.
