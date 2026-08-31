@@ -17,8 +17,11 @@ class NagerDateV3Provider(HolidayProvider):
     def __init__(self, timeout: int = 10):
         self.timeout = timeout
 
-    @functools.lru_cache(maxsize=64)
     def get_holidays(self, year: int, country_code: str) -> set[date]:
+        return self._get_holidays(year, country_code)
+
+    @functools.lru_cache(maxsize=64)
+    def _get_holidays(self, year: int, country_code: str) -> set[date]:
         url = self._API_URL.format(year=year, country_code=country_code)
         try:
             response = requests.get(url, timeout=self.timeout)

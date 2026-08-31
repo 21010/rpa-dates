@@ -44,3 +44,9 @@ target-version = "py310"
 [tool.pytest.ini_options]
 addopts = "--cov=rpa_dates --cov-report=term-missing"
 testpaths = ["tests"]
+
+[tool.pyrefly]
+project-includes = [
+    "**/*.py*",
+    "**/*.ipynb",
+]
