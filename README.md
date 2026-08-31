@@ -10,22 +10,29 @@
 [![Build Status](https://github.com/21010/rpa-dates/actions/workflows/ci.yml/badge.svg)](https://github.com/21010/rpa-dates/actions/workflows/ci.yml)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![Code Style: Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-[![Checked with Pyrefly](https://img.shields.io/badge/pyrefly-checked-blue.svg)]()
+[![Checked with Pyrefly](https://img.shields.io/badge/pyrefly-checked-blue.svg)](https://pyrefly.org)
 [![Security: Bandit](https://img.shields.io/badge/security-bandit-yellow.svg)](https://github.com/PyCQA/bandit)
 [![Robocorp](https://img.shields.io/badge/Robocorp-Supported-blueviolet.svg)](https://robocorp.com)
 [![RPA Automation](https://img.shields.io/badge/RPA-Automation-orange.svg)]()
+[![ISO 27001 Compliant](https://img.shields.io/badge/ISO_27001-Compliant-success.svg)]()
+[![ISO 8601 Supported](https://img.shields.io/badge/ISO_8601-Supported-success.svg)]()
+[![12-Factor Ready](https://img.shields.io/badge/12--Factor-Ready-success.svg)]()
+[![SOLID Principles](https://img.shields.io/badge/SOLID-Applied-brightgreen.svg)]()
+[![CUPID Principles](https://img.shields.io/badge/CUPID-Applied-brightgreen.svg)]()
 
 ## Key Features
 
 * **Resilient Holiday Fetching**: Uses a "Chain of Responsibility" fallback strategy.
-    1.  **Local Library** (0ms latency, works offline).
-    2.  **Nager.Date API** (Primary Web API).
-    3.  **OpenHolidays API** (Backup Web API).
-    * *If one fails, the next one takes over automatically.*
+    1. **Local Library** (0ms latency, works offline).
+    2. **Nager.Date API** (Primary Web API).
+    3. **OpenHolidays API** (Backup Web API).
+
+* *If one fails, the next one takes over automatically.*
+
 * **Production-Grade Working Day Logic**:
-    * Correctly handles **year boundaries** (e.g., adding 5 working days to Dec 29th).
-    * Preserves time components (e.g., `14:30` remains `14:30`).
-    * Supports positive and negative offsets.
+  * Correctly handles **year boundaries** (e.g., adding 5 working days to Dec 29th).
+  * Preserves time components (e.g., `14:30` remains `14:30`).
+  * Supports positive and negative offsets.
 * **RPA-Friendly**: Designed to handle string, `date`, and `datetime` inputs interchangeably.
 * **Fiscal Year Support**: Built-in utilities for fiscal calendars.
 
@@ -121,20 +128,24 @@ You don't need to configure this; it happens automatically inside ProviderFactor
 I use `uv` for dependency management.
 
 1. Clone the repo:
+
     ```bash
     git clone [https://github.com/21010/rpa-dates.git](https://github.com/21010/rpa-dates.git)
     cd rpa-dates
     ```
-   
+
 2. Install dependencies:
+
     ```bash
     uv sync
     ```
-   
+
 3. Run Tests:
+
     ```bash
     uv run pytest
     ```
+
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.

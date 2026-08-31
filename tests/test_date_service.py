@@ -189,3 +189,53 @@ def test_public_holidays_caching_call_structure(service, mock_provider):
 
     assert date(2025, 1, 1) in holidays
     # Ensure no crash
+
+def test_normalize_unsupported_type(service):
+    with pytest.raises(TypeError):
+        service.normalize(123)
+
+def test_format(service):
+    dt = datetime(2025, 1, 1, 12, 0, 0)
+    assert service.format(dt) == "01.01.2025"
+    assert service.format(dt, "%Y/%m/%d") == "2025/01/01"
+
+def test_offset(service):
+    assert service.offset("2025-01-01", days=1).strftime("%Y-%m-%d") == "2025-01-02"
+
+def test_first_last_day_of_week(service):
+    dt = "2025-01-01" # Wednesday
+    assert service.first_day_of_week(dt).weekday() == 0 # Monday
+    assert service.last_day_of_week(dt).weekday() == 6 # Sunday
+
+def test_date_of_weekday(service):
+    assert service.date_of_weekday("2025-01-01", "fri").weekday() == 4
+
+def test_day_of_year(service):
+    assert service.day_of_year("2025-02-01") == 32
+
+def test_week_of_year_us(service):
+    assert service.week_of_year("2025-01-01", standard="us") == 1
+    assert service.week_of_year("2025-01-01", standard=None) >= 0
+
+def test_dates_diff(service):
+    assert service.dates_diff("2025-01-01", "2025-01-03", unit="days") == 2
+    assert service.dates_diff("2025-01-01", "2025-01-03", unit="hours") == 48
+    assert service.dates_diff("2025-01-01", "2025-01-03", unit="minutes") == 48 * 60
+    assert service.dates_diff("2025-01-01", "2025-01-03", unit="seconds") == 48 * 3600
+
+def test_fiscal_month(service):
+    assert service.fiscal_month("2025-04-01", start_month=4) == 1
+    assert service.fiscal_month("2025-03-01", start_month=4) == 12
+
+def test_nth_working_day_negative(service):
+    with pytest.raises(ValueError):
+        service.nth_working_day_of_month(0, "2025-01-01")
+
+def test_get_holiday_set_no_country(service):
+    assert service._get_holiday_set((2025,), None) == set()
+
+def test_is_public_holiday(service, mock_provider):
+    mock_provider.get_holidays.return_value = {date(2025, 1, 1)}
+    assert service.is_public_holiday("2025-01-01", "US") is True
+    assert service.is_public_holiday("2025-01-02", "US") is False
+

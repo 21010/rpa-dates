@@ -122,3 +122,47 @@ def test_local_provider_invalid_country():
     # 'ZZ' is not a valid ISO country code in the holidays library
     with pytest.raises(HolidayApiError, match="not supported"):
         provider.get_holidays(2025, "ZZ")
+
+def test_local_provider_exception():
+    with patch("holidays.country_holidays", side_effect=Exception("Generic error")):
+        provider = LocalPythonHolidayProvider()
+        with pytest.raises(HolidayApiError, match="Local holiday error: Generic error"):
+            provider.get_holidays(2025, "US")
+
+from rpa_dates.providers.nager_date_v4 import NagerDateV4Provider
+
+@patch("requests.get")
+def test_nager_v4_success(mock_get):
+    mock_get.return_value.json.return_value = [{"date": "2025-01-01", "name": "New Year"}, {"date": "2025-12-25", "name": "Christmas"}]
+    mock_get.return_value.raise_for_status = Mock()
+    provider = NagerDateV4Provider()
+    result = provider.get_holidays(2025, "US")
+    assert date(2025, 1, 1) in result
+    assert len(result) == 2
+
+@patch("requests.get")
+def test_nager_v4_http_error(mock_get):
+    mock_get.side_effect = Timeout("Connection timed out")
+    provider = NagerDateV4Provider()
+    with pytest.raises(HolidayApiError, match="Failed to fetch holidays"):
+        provider.get_holidays(2025, "XX")
+
+@patch("requests.get")
+def test_open_holidays_http_error(mock_get):
+    mock_get.side_effect = Timeout("Connection timed out")
+    provider = OpenHolidaysProvider()
+    with pytest.raises(HolidayApiError, match="Failed to fetch holidays for XX from OpenHolidays"):
+        provider.get_holidays(2025, "XX")
+
+@patch("requests.get")
+def test_open_holidays_parse_error(mock_get):
+    mock_get.return_value.json.return_value = [{"invalid_key": "2025-07-04"}]
+    provider = OpenHolidaysProvider()
+    with pytest.raises(HolidayApiError, match="Failed to parse response from OpenHolidays"):
+        provider.get_holidays(2025, "US")
+
+from rpa_dates.factories import ProviderFactory
+def test_provider_factory():
+    provider = ProviderFactory.create_provider(timeout=5)
+    assert isinstance(provider, FallbackHolidayProvider)
+    assert len(provider.providers) == 4
